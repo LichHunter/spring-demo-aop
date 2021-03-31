@@ -1,6 +1,7 @@
 package com.luv2code.springdemo.springdemoaop.aspect;
 
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -37,16 +38,32 @@ public class LoggingAspect {
 
 	@AfterReturning(pointcut = "execution(public String addAccount(String, boolean))",
 			returning = "result")
-	public void afterReturningAddAccountAdvice(JoinPoint joinPoint, String result) {
+	public String afterReturningAddAccountAdvice(JoinPoint joinPoint, String result) {
 		System.out.println("After returning addAccount");
 		System.out.println("Result: " + result);
 		result = result.concat(" Me");
 		System.out.println("Modified result: " + result);
+		return result;
 	}
 
 	@AfterThrowing(pointcut = "execution(public String addAccount(String, boolean))",
 			throwing = "exception")
 	public void afterThrowingAddAccountAdvice(Throwable exception) {
 		System.out.println("Exception logged:" + exception.getMessage());
+	}
+
+	@Around("execution(public String addAccount(String, boolean))")
+	public Object aroundAddAccountAdvice(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+		Object result = null;
+
+		System.out.println("Around advice start");
+		try {
+			result = proceedingJoinPoint.proceed();
+		} catch (NullPointerException e) {
+			System.out.println("Had null pointer exception");
+			result = "Exception";
+		}
+		System.out.println("Around advice after");
+		return result;
 	}
 }

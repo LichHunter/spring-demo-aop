@@ -14,11 +14,7 @@ public class SpringDemoAopApplication {
 		AccountDAO accountDAO = context.getBean("accountDAO", AccountDAO.class);
 		MembershipDAO membershipDAO = context.getBean("membershipDAO", MembershipDAO.class);
 
-		try {
-			System.out.println(accountDAO.addAccount(null, true));
-		} catch (NullPointerException ignore) {
-
-		}
+		System.out.println(accountDAO.addAccount(null, true));
 		membershipDAO.addAccount();
 	}
 }
