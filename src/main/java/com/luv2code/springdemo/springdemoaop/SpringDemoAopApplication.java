@@ -14,7 +14,7 @@ public class SpringDemoAopApplication {
 		AccountDAO accountDAO = context.getBean("accountDAO", AccountDAO.class);
 		MembershipDAO membershipDAO = context.getBean("membershipDAO", MembershipDAO.class);
 
-		accountDAO.addAccount();
+		accountDAO.addAccount("Hello", true);
 		membershipDAO.addAccount();
 	}
 }

@@ -1,5 +1,6 @@
 package com.luv2code.springdemo.springdemoaop.aspect;
 
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
@@ -24,8 +25,15 @@ public class LoggingAspect {
 	// method-name-pattern(*(one any argument)/..(any number of parameters))
 //	@Before("forDaoPackage() || !forAllClasses()")
 //	@Before("forDaoPackage()")
-	@Before("execution(public void addAccount())")
-	public void beforeAddAccountAdvice() {
+	@Before("execution(public void addAccount(String, boolean))")
+	public void beforeAddAccountAdvice(JoinPoint joinPoint) {
+		System.out.println("Params:");
+		for (Object object : joinPoint.getArgs()) {
+			System.out.println(object);
+		}
+
+		System.out.println("Method signature: " + joinPoint.getSignature());
+
 		System.out.println("Executing before method addAccount");
 	}
 }
